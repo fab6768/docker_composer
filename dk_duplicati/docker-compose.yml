@@ -1,0 +1,46 @@
+---
+
+## ---- DUPLICATI
+version: "3.9"
+
+# https://docs.linuxserver.io/images/docker-duplicati/#environment-variables-from-files-docker-secrets
+
+## ---- SRV
+services:
+
+## ________________ DUPLICATI
+  mariadb_1:
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+        reservations:
+          memory: 512M
+## ---- CT
+    container_name: duplicati
+    hostname: 'duplicati'
+    image: lscr.io/linuxserver/duplicati:latest
+    restart: unless-stopped
+
+## ---- PORTS
+    ports:
+      - "8200:8200/tcp"
+
+## ---- VOLUMES    
+    volumes:
+      - ./config:/config
+      - ./backups:/backups
+      - ./source:/source
+
+## ---- VARIABLES
+    environment:
+     - PUID=0
+     - PGID=0
+     - TZ=Europe/Madrid
+     # - CLI_ARGS=
+
+## ---- MORE
+
+       
+## ---- ---- ----
+
