@@ -1,0 +1,36 @@
+---
+## ---- GALERA
+version: "3.9"
+
+## ---- SRV
+services:
+
+## ________________ MARIADB
+  mariadb_1:
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+        reservations:
+          memory: 512M
+## ---- CT
+    container_name: duplicacy
+    hostname: 'duplicacy'
+    image: erichough/duplicacy
+    restart: unless-stopped
+
+## ---- PORTS
+    ports:
+      - "3875:3875/tcp"
+
+## ---- VOLUMES    
+    volumes:
+      - ./config:/etc/duplicacy
+      - ./cache:/var/cache/duplicacy
+      - ./storage:/storage
+
+## ---- MORE
+    cap_drop:
+      - ALL
+       
+## ---- ---- ----
